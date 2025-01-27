@@ -1,9 +1,3 @@
-/*
- * @lc app=leetcode id=257 lang=cpp
- *
- * [257] Binary Tree Paths
- */
-
 // @lc code=start
 /**
  * Definition for a binary tree node.
@@ -18,8 +12,24 @@
  */
 class Solution {
 public:
+    void helper(TreeNode* root, string s ,vector<string> &ans){
+        // base case
+        if(root==NULL) return; 
+        string a = to_string(root->val);
+        // leaf nodes
+        if(root->left == NULL && root->right == NULL)
+        {
+            s += a;
+            ans.push_back(s);
+            return; 
+        } 
+        helper(root->left,s+a+"->",ans);
+        helper(root->right,s+a+"->",ans); 
+    }
     vector<string> binaryTreePaths(TreeNode* root) {
-        
+        vector<string> ans;
+        helper(root,"",ans); 
+        return ans;
     }
 };
 // @lc code=end
