@@ -62,8 +62,35 @@
  */
 class Solution {
 public:
+    int level(TreeNode* root)
+    {
+        if(root==NULL) return 0; 
+        return 1 + max(level(root->left),level(root->right)); 
+    }
+
+    void nthlevel(TreeNode* root , int current , int level,vector<int> &v)
+    {
+        if(root==NULL) return;
+        if(current==level) v.push_back(root->val);
+        nthlevel(root->left,current+1,level,v);
+        nthlevel(root->right,current+1,level,v);
+    }
+
+    void levelorder(TreeNode* root, vector<vector<int>> &ans)
+    {
+        int n = level(root); 
+
+        for(int i = 1 ; i <= n ; i++)
+        {
+            vector<int> v;
+            nthlevel(root,1,i,v);
+            ans.push_back(v);
+        }
+    }
     vector<vector<int>> levelOrder(TreeNode* root) {
-        
+        vector<vector<int>> ans;
+        levelorder(root,ans);
+        return ans;
     }
 };
 // @lc code=end
