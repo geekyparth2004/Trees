@@ -61,8 +61,28 @@
  */
 class Solution {
 public:
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        
+    TreeNode* build(vector<int>& pre,int prelo , int prehigh, vector<int>& in, int inlo , int inhigh){
+        if(prelo>prehigh) return NULL;
+        TreeNode* root = new TreeNode(pre[prelo]); 
+        if(prelo == prehigh) return root;
+        int i = inlo;
+
+        while(i<=inhigh)
+        {
+            if(in[i]==pre[prelo]) break;
+            i++;
+        }
+
+        int leftcount = i - inlo;
+        int rightcount = inhigh - i;
+
+        root->left = build(pre,prelo + 1,prelo + leftcount,in,inlo,i-1);
+        root->right = build(pre,prelo+leftcount+1,prehigh,in,i+1,inhigh);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& pre, vector<int>& in) {
+        int n = pre.size(); 
+        return build(pre,0,n-1,in,0,n-1);
     }
 };
 // @lc code=end
